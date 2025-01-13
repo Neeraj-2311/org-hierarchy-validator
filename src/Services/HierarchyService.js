@@ -2,10 +2,12 @@ const HierarchyService = {
     validateHierarchy: (data) => {
         const errors = [];
         
+        // Create employee map for O(1) lookups
         const employeeMap = new Map(
             data.map(employee => [employee.Email, employee])
         );
         
+        // Create role validation rules map
         const roleValidationRules = {
             'Admin': {
                 validSupervisor: (supervisor) => supervisor === 'Root',
@@ -29,6 +31,7 @@ const HierarchyService = {
             }
         };
 
+        // Helper function to check circular reporting
         const findCircularReporting = (email, visited = new Set()) => {
             if (visited.has(email)) return true;
             visited.add(email);
@@ -39,22 +42,26 @@ const HierarchyService = {
             return findCircularReporting(employee.ReportsTo, visited);
         };
 
+        // Validate each employee
         data.forEach((employee, index) => {
+            // Add row index to employee for error messages
             employee.rowIndex = index;
             const supervisorEmails = employee.ReportsTo ? employee.ReportsTo.split(';') : [];
 
+            // Check for multiple reporting lines
             if (supervisorEmails.length > 1) {
                 errors.push({
                     row: index + 1,
                     employee,
                     error: `Row ${index + 1} (${employee.Email}): ${employee.FullName} has multiple reporting lines (${supervisorEmails.join(', ')}), which is invalid.`
                 });
-                return; 
+                return; // Skip other validations if multiple supervisors found
             }
 
             const supervisorEmail = supervisorEmails[0];
             const supervisor = supervisorEmail ? employeeMap.get(supervisorEmail) : null;
 
+            // Check for circular reporting
             if (supervisorEmail && findCircularReporting(employee.Email)) {
                 errors.push({
                     row: index + 1,
@@ -63,6 +70,7 @@ const HierarchyService = {
                 });
             }
 
+            // Check for invalid supervisor
             if (supervisorEmail && !supervisor && supervisorEmail !== 'Root') {
                 errors.push({
                     row: index + 1,
@@ -71,6 +79,7 @@ const HierarchyService = {
                 });
             }
 
+            // Validate role-based reporting structure
             const roleRules = roleValidationRules[employee.Role];
             if (roleRules && !roleRules.validSupervisor(supervisorEmail === 'Root' ? 'Root' : supervisor)) {
                 errors.push({
