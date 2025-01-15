@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import UploadError from './UploadError';
 
 const FileUpload = ({ onFileUpload, errorMessage, file, setFile }) => {
