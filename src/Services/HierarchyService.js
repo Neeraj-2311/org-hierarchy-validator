@@ -10,7 +10,7 @@ const HierarchyService = {
         // Create role validation rules map
         const roleValidationRules = {
             'Admin': {
-                validSupervisor: (supervisor) => supervisor === 'Root',
+                validSupervisor: (supervisor) => supervisor && supervisor.Role === 'Root',
                 errorMessage: (employee, supervisor) => 
                     `Row ${employee.rowIndex + 1} (${employee.Email}): ${employee.FullName} is an Admin but reports to ${supervisor}, not Root.`
             },
@@ -55,20 +55,11 @@ const HierarchyService = {
                     employee,
                     error: `Row ${index + 1} (${employee.Email}): ${employee.FullName} has multiple reporting lines (${supervisorEmails.join(', ')}), which is invalid.`
                 });
-                return; // Skip other validations if multiple supervisors found
+                return; // Skip other validations
             }
 
             const supervisorEmail = supervisorEmails[0];
             const supervisor = supervisorEmail ? employeeMap.get(supervisorEmail) : null;
-
-            // Check for circular reporting
-            if (supervisorEmail && findCircularReporting(employee.Email)) {
-                errors.push({
-                    row: index + 1,
-                    employee,
-                    error: `Row ${index + 1} (${employee.Email}): ${employee.FullName} has circular reporting. Cannot report back to a supervisor.`
-                });
-            }
 
             // Check for invalid supervisor
             if (supervisorEmail && !supervisor && supervisorEmail !== 'Root') {
@@ -77,6 +68,7 @@ const HierarchyService = {
                     employee,
                     error: `Row ${index + 1} (${employee.Email}): ${employee.FullName} has an invalid supervisor ${supervisorEmail}.`
                 });
+                return;
             }
 
             // Validate role-based reporting structure
@@ -86,6 +78,16 @@ const HierarchyService = {
                     row: index + 1,
                     employee,
                     error: roleRules.errorMessage(employee, supervisorEmail)
+                });
+                return;
+            }
+
+            // Check for circular reporting
+            if (supervisorEmail && findCircularReporting(employee.Email)) {
+                errors.push({
+                    row: index + 1,
+                    employee,
+                    error: `Row ${index + 1} (${employee.Email}): ${employee.FullName} has circular reporting. Cannot report back to a supervisor.`
                 });
             }
         });
