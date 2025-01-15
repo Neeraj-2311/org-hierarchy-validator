@@ -4,7 +4,7 @@ import { ValidationTable } from './components/ValidationTable';
 import ErrorDialog from './components/ErrorDialog'
 import { useFileValidation } from '../../hooks/useFileValidation';
 import './styles/FileUpload.css';
-import HierarchyVisualization from '../HierarchyTree/HierarchyVisualization';
+import HierarchyTree from '../HierarchyTree/HierarchyTree';
 
 const FileUploadContainer = () => {
   const {
@@ -40,7 +40,7 @@ const FileUploadContainer = () => {
       )}
 
       {validEmployees.length > 0 && (
-        <HierarchyVisualization employees={validEmployees} />
+        <HierarchyTree employees={validEmployees} />
       )}
 
       <ErrorDialog
