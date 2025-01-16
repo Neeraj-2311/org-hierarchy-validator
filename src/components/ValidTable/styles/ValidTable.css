@@ -1,0 +1,13 @@
+.valid-title{
+    margin-bottom: 0;
+}
+
+/*   Inheriting styles from ErrorTable.css   */
+
+.valid-table .data-table tbody tr {
+    background-color: #f6f6f6;
+}
+
+.valid-table .data-table tbody tr:hover {
+    background-color: #e8e8e8;
+}

@@ -7,15 +7,17 @@ const HierarchyTree = ({ employees }) => {
   const [expandedDetails, setExpandedDetails] = useState(new Set());
 
   return (
-    <div className="hierarchy-container">
-      <h2 className="app-title">Valid Hierarchy</h2>
-      {buildHierarchyTree(
-        employees,
-        expandedNodes,
-        setExpandedNodes,
-        expandedDetails,
-        setExpandedDetails
-      )}
+    <div>
+      <h2 className="tree-title component-title">Valid Hierarchy</h2>
+      <div className="tree-container">
+        {buildHierarchyTree(
+          employees,
+          expandedNodes,
+          setExpandedNodes,
+          expandedDetails,
+          setExpandedDetails
+        )}
+      </div>
     </div>
   );
 };

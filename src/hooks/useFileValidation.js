@@ -8,8 +8,16 @@ export const useFileValidation = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleFileUpload = (event) => {
+    setErrorMessage('')
     const file = event.target.files[0];
     if (!file) return;
+
+    if (!file.name.endsWith('.csv')) {
+      setErrorMessage('Please upload a CSV file.');
+      setValidationErrors([]);
+      setValidEmployees([]);
+      return;
+    }
 
     Papa.parse(file, {
       complete: (result) => {

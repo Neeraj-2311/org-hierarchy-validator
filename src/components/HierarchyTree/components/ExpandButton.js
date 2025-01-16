@@ -3,7 +3,7 @@ import { ToggleNode } from "../utils/utils"
 
 const ExpandButton = ({node, setExpandedNodes, isExpanded}) => {
     return (
-        <button
+        <button aria-label="expand"
             className="expand-button"
             onClick={(e) => ToggleNode(node.Email, e, setExpandedNodes)}
         >

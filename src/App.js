@@ -1,13 +1,13 @@
 import React from 'react';
-import FileUploadContainer from './components/FileUpload/FileUploadContainer';
 import './App.css';
+import Layout from './components/Layout/Layout';
 
 const App = () => {
   return (
     <div className="app-container">
       <div className="content-wrapper">
         <h1 className="app-title">Organization Hierarchy Validator</h1>
-        <FileUploadContainer />
+        <Layout />
       </div>
     </div>
   );

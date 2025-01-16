@@ -1,0 +1,27 @@
+.layout-container {
+    width: 100%;
+}
+
+.component-title {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: start;
+    font-weight: 700;
+    border: none;
+    padding-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .component-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .component-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+}
