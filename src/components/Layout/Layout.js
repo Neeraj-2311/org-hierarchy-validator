@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import FileUpload from '../FileUpload/FileUpload';
-import ErrorTable from '../ErrorTable/ErrorTable';
 import { useFileValidation } from '../../hooks/useFileValidation';
 import './Layout.css';
 import HierarchyTree from '../HierarchyTree/HierarchyTree';
-import ValidTable from '../ValidTable/ValidTable';
+import EmployeeTable from '../EmployeeTable/EmployeeTable';
 
 const Layout = () => {
   const {
@@ -31,12 +30,18 @@ const Layout = () => {
       )}
       
       {validationErrors.length > 0 && (
-        <ErrorTable
-          errors={validationErrors}
+        <EmployeeTable
+          data={validationErrors}
+          isValid={false}
+          title={"Invalid Rows"}
         />
       )}
       {validEmployees.length > 0 && (
-        <ValidTable validRows={validEmployees}/>
+        <EmployeeTable 
+          data={validEmployees}
+          isValid={true}
+          title={"Valid Rows"}
+        />
       )}
 
     </div>

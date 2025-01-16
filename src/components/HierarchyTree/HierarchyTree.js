@@ -8,7 +8,7 @@ const HierarchyTree = ({ employees }) => {
 
   return (
     <div>
-      <h2 className="tree-title component-title">Valid Hierarchy</h2>
+      <h2 className="component-title tree-title">Valid Hierarchy</h2>
       <div className="tree-container">
         {buildHierarchyTree(
           employees,

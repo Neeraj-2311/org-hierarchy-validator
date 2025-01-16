@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ErrorButton from './components/ErrorButton';
 import ErrorDialog from './components/ErrorDialog';
-import './styles/ErrorTable.css'
+import './styles/EmployeeTable.css'
 
-const ErrorTable = ({ errors }) => {
+const EmployeeTable = ({ data, isValid, title }) => {
 
   const [selectedError, setSelectedError] = useState(null);
   const [showErrorDialog, setShowErrorDialog] = useState(false);
@@ -16,9 +16,9 @@ const ErrorTable = ({ errors }) => {
   return (
 
     <div>
-      <h2 className="component-title error-title">Invalid Rows</h2>
+      <h2 className="component-title table-title">{title}</h2>
       <div className="table-container">
-        <table className="data-table">
+        <table className={`data-table ${isValid && 'valid'}`}>
           <thead>
             <tr>
               <th>Row</th>
@@ -26,23 +26,23 @@ const ErrorTable = ({ errors }) => {
               <th>Full Name</th>
               <th>Role</th>
               <th>Reports To</th>
-              <th>Status</th>
+              {!isValid && <th>Status</th>}
             </tr>
           </thead>
           <tbody>
-            {errors.map(({ employee, error, row }, index) => (
-              <tr key={`${row}-${index}`}>
-                <td>{row}</td>
-                <td>{employee.Email}</td>
-                <td>{employee.FullName}</td>
-                <td>{employee.Role}</td>
-                <td>{employee.ReportsTo || 'None'}</td>
-                <td>
+            {data.map((employee, index) => (
+              <tr key={`${isValid ? employee?.rowIndex : employee?.row}-${index}`}>
+                <td>{isValid ? employee?.rowIndex+1 : employee?.row}</td>
+                <td>{isValid ? employee?.Email : employee?.employee?.Email}</td>
+                <td>{isValid ? employee?.FullName : employee?.employee?.FullName}</td>
+                <td>{isValid ? employee?.Role : employee?.employee?.Role}</td>
+                <td>{(isValid ? employee?.ReportsTo : employee?.employee?.ReportsTo) || 'None'}</td>
+                {!isValid && <td>
                   <ErrorButton
-                    onClick={() => handleErrorClick(error)}
+                    onClick={() => handleErrorClick(employee?.error)}
                     label="Details"
                   />
-                </td>
+                </td>}
               </tr>
             ))}
           </tbody>
@@ -58,4 +58,4 @@ const ErrorTable = ({ errors }) => {
   )
 };
 
-export default ErrorTable
+export default EmployeeTable

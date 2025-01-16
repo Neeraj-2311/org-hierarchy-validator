@@ -1,4 +1,4 @@
-.error-title{
+.table-title{
     margin-bottom: 0;
 }
 .table-container {
@@ -38,6 +38,13 @@
 
 .data-table tbody tr:hover {
     background-color: #ffe4e6;
+}
+.valid.data-table tbody tr {
+    background-color: #f6f6f6;
+}
+
+.valid.data-table tbody tr:hover {
+    background-color: #e8e8e8;
 }
 
 .error-button {
